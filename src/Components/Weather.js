@@ -5,6 +5,7 @@ import WeatherContainer from './WeatherContainer'
 
 const initialWeather = [{
   cityName: '',
+  stateName: '',
   country: '',
   weather: '',
   description: '',
@@ -19,7 +20,7 @@ const initialWeather = [{
 const Weather = () => {
 
     const [city, setCity] = useState('')
-    const [stateName, setStateName] = useState('')
+
     const [error, setError] = useState('')
     const [weather, setWeather] = useState(initialWeather)
     
@@ -38,12 +39,12 @@ const Weather = () => {
     useEffect(() => {
       axios.get(urlState)
       .then((res) => {
-        setStateName(res.data[0].state)
+        setWeather({...weather, stateName: res.data[0].state})
       })
       .catch((err => {
           console.log(err);
       }))
-  }, [weather]);
+  }, [weather.cityName]);
 
 
     const getWeather = () => {
@@ -84,7 +85,7 @@ const Weather = () => {
             <input type="submit" value="Search" />
           </form>
         </div>
-          <WeatherContainer weather={weather} city={city} error={error} stateName={stateName} />
+          <WeatherContainer weather={weather} city={city} error={error} />
       </div>
     )
 }

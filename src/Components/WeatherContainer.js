@@ -23,7 +23,7 @@ const WeatherContainer = (props) => {
           : 
         <div className='display'>
 
-            <h2> {props.weather.cityName}, {props.stateName} </h2>
+            <h2> {props.weather.cityName}, {props.weather.stateName} </h2>
             <h2> {props.weather.weather} </h2>
             <img src={iconAPIurl} alt="weather icon" />
             <h3> {props.weather.description}</h3>
