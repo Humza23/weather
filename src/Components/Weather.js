@@ -37,29 +37,29 @@ const Weather = () => {
 
 
     return (
-      <div>
+      <div className="weatherContainer">
+        <div className="formContainer">
           <form onSubmit={handleSubmit}>
             <label>
               City:
             <input type="text" name="City" value={city} onChange={handleChange} />
             </label>
-          <input type="submit" value="Submit" />
+            <input type="submit" value="Submit" />
           </form>
-        <div className='display'>
+        </div>
           {
           error ? 
-          <div>
+        <div className='display'>
             <h1>
             {error} 
             </h1>
-          </div>
+        </div>
           : 
-          <div>
+        <div className='display'>
             <h2> {weather} </h2>
             <h3> {description}</h3>
-          </div>
-          }
         </div>
+          }
       </div>
     )
 }
