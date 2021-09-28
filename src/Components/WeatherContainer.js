@@ -22,12 +22,14 @@ const WeatherContainer = (props) => {
         </div>
           : 
         <div className='display'>
-            <h2> {props.weather.cityName} </h2>
+
+            <h2> {props.weather.cityName}, {props.stateName} </h2>
             <h2> {props.weather.weather} </h2>
             <img src={iconAPIurl} alt="weather icon" />
             <h3> {props.weather.description}</h3>
             <h4> {Math.round(props.weather.temperature)} </h4>
-            <h5> {Math.round(props.weather.temperature_max)}/ {Math.round(props.weather.temperature_min)} </h5>
+            <p> High: {Math.round(props.weather.temperature_max)} </p>
+            <p> Low: {Math.round(props.weather.temperature_min)} </p>
             <h5> {date} </h5>
         </div>
           }

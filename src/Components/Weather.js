@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import WeatherContainer from './WeatherContainer'
 
@@ -19,6 +19,7 @@ const initialWeather = [{
 const Weather = () => {
 
     const [city, setCity] = useState('')
+    const [stateName, setStateName] = useState('')
     const [error, setError] = useState('')
     const [weather, setWeather] = useState(initialWeather)
     
@@ -32,7 +33,17 @@ const Weather = () => {
     }
     
     const weatherAPIurl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${process.env.REACT_APP_WEATHER_TOKEN}`
+    const urlState = `http://api.openweathermap.org/geo/1.0/reverse?lat=${weather.lat}&lon=${weather.lon}&limit=5&appid=00b908352099ba90a12ecbd4a449112b`
 
+    useEffect(() => {
+      axios.get(urlState)
+      .then((res) => {
+        setStateName(res.data[0].state)
+      })
+      .catch((err => {
+          console.log(err);
+      }))
+  }, [weather]);
 
 
     const getWeather = () => {
@@ -52,6 +63,9 @@ const Weather = () => {
           lat: res.data.coord.lat
         })
         setError('')
+        console.log(urlState);
+        // console.log(weather.lat);
+        // console.log(weather.lon);
       })
       .catch((err => {
         console.log(err);
@@ -70,7 +84,7 @@ const Weather = () => {
             <input type="submit" value="Search" />
           </form>
         </div>
-          <WeatherContainer weather={weather} city={city} error={error} />
+          <WeatherContainer weather={weather} city={city} error={error} stateName={stateName} />
       </div>
     )
 }
