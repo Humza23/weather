@@ -2,12 +2,19 @@ import React, {useState} from 'react'
 import axios from 'axios'
 
 
+const initialWeather = [{
+  weather: '',
+  temperature: '',
+  description: '',
+  temperature_max: '',
+  temperature_min: '',
+}]
+
 const Weather = () => {
 
     const [city, setCity] = useState('')
-    const [weather, setWeather] = useState('')
-    const [description, setDescription] = useState('')
     const [error, setError] = useState('')
+    const [weather, setWeather] = useState(initialWeather)
 
     const handleChange = (e) => {
       setCity(e.target.value);
@@ -20,13 +27,16 @@ const Weather = () => {
     }
 
     const weatherAPIurl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.REACT_APP_WEATHER_TOKEN}`
+    // console.log(weatherAPIurl);
 
     const getWeather = () => {
       axios.get(weatherAPIurl)
       .then((res) => {
-        console.log(res.data.weather[0]);
-        setWeather(res.data.weather[0].main)
-        setDescription(res.data.weather[0].description)
+        console.log(res.data.main.temp);
+        setWeather({...weather, 
+          weather: res.data.weather[0].main,
+          description: res.data.weather[0].description
+        })
         setError('')
       })
       .catch((err => {
@@ -56,8 +66,8 @@ const Weather = () => {
         </div>
           : 
         <div className='display'>
-            <h2> {weather} </h2>
-            <h3> {description}</h3>
+            <h2> {weather.weather} </h2>
+            <h3> {weather.description}</h3>
         </div>
           }
       </div>
