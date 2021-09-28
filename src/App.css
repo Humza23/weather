@@ -1,5 +1,6 @@
-html { 
-  background: url('./Components//Images/defaultBackground.jpeg') no-repeat center center fixed;
+html {
+  background: url("./Components//Images/defaultBackground.jpeg") no-repeat
+    center center fixed;
   background-size: cover;
 }
 
@@ -10,4 +11,8 @@ html {
 
 .weatherContainer {
   margin-top: 10%;
+}
+
+.display img {
+  height: 60px;
 }
