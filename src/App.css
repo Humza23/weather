@@ -1,17 +1,9 @@
+html { 
+  background: url('./Components//Images/defaultBackground.jpeg') no-repeat center center fixed;
+  background-size: cover;
+}
+
 .App {
-  background-color: #282c34;
-  text-align: center;
-  color: white;
-}
-
-.weatherContainer {
-  background-color: #282c34;
-  text-align: center;
-  color: white;
-}
-
-.formContainer {
-  background-color: #282c34;
   text-align: center;
   color: white;
 }

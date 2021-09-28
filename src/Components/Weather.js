@@ -42,9 +42,9 @@ const Weather = () => {
           <form onSubmit={handleSubmit}>
             <label>
               City:
-            <input type="text" name="City" value={city} onChange={handleChange} />
+            <input type="text" name="City" value={city} placeholder="Search for a city" onChange={handleChange} />
             </label>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Search" />
           </form>
         </div>
           {
