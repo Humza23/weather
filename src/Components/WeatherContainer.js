@@ -5,6 +5,8 @@ import 'moment-timezone'
 
 const WeatherContainer = (props) => {
     const [timeZone, setTimeZone] = useState()
+    const [time, setTime] = useState()
+
     // const dateState = moment().format('MMMM Do YYYY, h:mm a').tz(`America/${props.weather.stateName}`)
     // console.log(dateState);
     // const dateCountry = moment().tz(`America/Los_Angeles`).format('MMMM Do YYYY, h:mm a')
@@ -15,14 +17,16 @@ const WeatherContainer = (props) => {
             console.log(res.data);
             // console.log(res.data.zoneName);
             setTimeZone(res.data.zoneName)
-            console.log(dateState);
+            // console.log(dateState);
+            setTime(moment().tz(`${timeZone}`).format('MMMM Do YYYY, h:mm a'))
+            console.log(time);
         })
         .catch((err => {
             console.log(err);
         }))
     }, [props.weather.lat, props.weather.lon]);
     
-    const dateState = moment().tz(`${timeZone}`).format('MMMM Do YYYY, h:mm a')
+    // const dateState = moment().tz(`${timeZone}`).format('MMMM Do YYYY, h:mm a')
 
 
 

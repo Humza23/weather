@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import WeatherContainer from './WeatherContainer'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faS, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 
 const initialWeather = [{
@@ -38,21 +38,20 @@ const Weather = () => {
     const weatherAPIurl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${process.env.REACT_APP_WEATHER_TOKEN}`
     // const urlState = `http://api.openweathermap.org/geo/1.0/reverse?lat=${weather.lat}&lon=${weather.lon}&limit=5&appid=00b908352099ba90a12ecbd4a449112b`
 
-    useEffect(() => {
-      axios.get(`http://api.openweathermap.org/geo/1.0/reverse?lat=${weather.lat}&lon=${weather.lon}&limit=5&appid=00b908352099ba90a12ecbd4a449112b`)
-      .then((res) => {
-        setWeather({...weather, stateName: res.data[0].state})
-      })
-      .catch((err => {
-          console.log(err);
-      }))
-  }, []);
+  //   useEffect(() => {
+  //     axios.get(`http://api.openweathermap.org/geo/1.0/reverse?lat=${weather.lat}&lon=${weather.lon}&limit=5&appid=00b908352099ba90a12ecbd4a449112b`)
+  //     .then((res) => {
+  //       setWeather({...weather, stateName: res.data[0].state})
+  //     })
+  //     .catch((err => {
+  //         console.log(err);
+  //     }))
+  // }, []);
 
 
     const getWeather = () => {
       axios.get(weatherAPIurl)
       .then((res) => {
-        console.log(res.data.name);
         setWeather({...weather, 
           cityName: res.data.name,
           country: res.data.sys.country,
@@ -66,6 +65,11 @@ const Weather = () => {
           lat: res.data.coord.lat
         })
         setError('')
+
+      })
+      .then((resp) => {
+        axios.get(`http://api.openweathermap.org/geo/1.0/reverse?lat=${weather.lat}&lon=${weather.lon}&limit=5&appid=00b908352099ba90a12ecbd4a449112b`)
+        setWeather({...weather, stateName: resp.data[0].state})
       })
       .catch((err => {
         console.log(err);
@@ -77,7 +81,7 @@ const Weather = () => {
       <div className="weatherContainer">
           <form onSubmit={handleSubmit}>
             <input type="text" name="City" value={city} placeholder="Search for a city" onChange={handleChange} />
-            <FontAwesomeIcon icon={faSearch} onClick={handleSubmit}/>
+            <FontAwesomeIcon className="searchbtn" icon={faSearch} onClick={handleSubmit}/>
           </form>
           <WeatherContainer weather={weather} city={city} error={error} />
       </div>
