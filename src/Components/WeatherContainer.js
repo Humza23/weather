@@ -24,7 +24,7 @@ const WeatherContainer = (props) => {
         .catch((err => {
             console.log(err);
         }))
-    }, [props.weather.lat, props.weather.lon]);
+    }, []);
     
     // const dateState = moment().tz(`${timeZone}`).format('MMMM Do YYYY, h:mm a')
 

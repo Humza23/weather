@@ -22,7 +22,6 @@ const initialWeather = [{
 const Weather = () => {
 
     const [city, setCity] = useState('')
-
     const [error, setError] = useState('')
     const [weather, setWeather] = useState(initialWeather)
     
@@ -36,46 +35,40 @@ const Weather = () => {
     }
     
     const weatherAPIurl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${process.env.REACT_APP_WEATHER_TOKEN}`
-    // const urlState = `http://api.openweathermap.org/geo/1.0/reverse?lat=${weather.lat}&lon=${weather.lon}&limit=5&appid=00b908352099ba90a12ecbd4a449112b`
-
-  //   useEffect(() => {
-  //     axios.get(`http://api.openweathermap.org/geo/1.0/reverse?lat=${weather.lat}&lon=${weather.lon}&limit=5&appid=00b908352099ba90a12ecbd4a449112b`)
-  //     .then((res) => {
-  //       setWeather({...weather, stateName: res.data[0].state})
-  //     })
-  //     .catch((err => {
-  //         console.log(err);
-  //     }))
-  // }, []);
 
 
-    const getWeather = () => {
-      axios.get(weatherAPIurl)
-      .then((res) => {
+  const getWeather = () => {
+    axios.get(weatherAPIurl) 
+    .then((responseA) =>
+        Promise.all([
+          responseA,
+          axios.get(`http://api.openweathermap.org/geo/1.0/reverse?lat=${responseA.data.coord.lat}&lon=${responseA.data.coord.lon}&limit=5&appid=00b908352099ba90a12ecbd4a449112b`)
+        ])   
+    )
+    .then(
+      ([responseA,responseB]) => {
+        console.log('resA', responseA);
+        console.log(responseB.data[0].state);
         setWeather({...weather, 
-          cityName: res.data.name,
-          country: res.data.sys.country,
-          weather: res.data.weather[0].main,
-          description: res.data.weather[0].description,
-          temperature: res.data.main.temp,
-          temperature_max: res.data.main.temp_max,
-          temperature_min: res.data.main.temp_min,
-          weatherIcon: res.data.weather[0].icon,
-          lon: res.data.coord.lon,
-          lat: res.data.coord.lat
+          cityName: responseA.data.name,
+          country: responseA.data.sys.country,
+          weather: responseA.data.weather[0].main,
+          description: responseA.data.weather[0].description,
+          temperature: responseA.data.main.temp,
+          temperature_max: responseA.data.main.temp_max,
+          temperature_min: responseA.data.main.temp_min,
+          weatherIcon: responseA.data.weather[0].icon,
+          lon: responseA.data.coord.lon,
+          lat: responseA.data.coord.lat,
+          stateName: responseB.data[0].state
         })
         setError('')
-
-      })
-      .then((resp) => {
-        axios.get(`http://api.openweathermap.org/geo/1.0/reverse?lat=${weather.lat}&lon=${weather.lon}&limit=5&appid=00b908352099ba90a12ecbd4a449112b`)
-        setWeather({...weather, stateName: resp.data[0].state})
-      })
-      .catch((err => {
-        console.log(err);
+    })
+    .catch((err) => {
+        console.log(err.message);
         setError('Please enter a valid City name')
-      }))
-    }
+    });
+  }
 
     return (
       <div className="weatherContainer">
