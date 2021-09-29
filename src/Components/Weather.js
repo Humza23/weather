@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import WeatherContainer from './WeatherContainer'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faS, faSearch } from '@fortawesome/free-solid-svg-icons'
 
 
 const initialWeather = [{
@@ -34,17 +36,17 @@ const Weather = () => {
     }
     
     const weatherAPIurl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${process.env.REACT_APP_WEATHER_TOKEN}`
-    const urlState = `http://api.openweathermap.org/geo/1.0/reverse?lat=${weather.lat}&lon=${weather.lon}&limit=5&appid=00b908352099ba90a12ecbd4a449112b`
+    // const urlState = `http://api.openweathermap.org/geo/1.0/reverse?lat=${weather.lat}&lon=${weather.lon}&limit=5&appid=00b908352099ba90a12ecbd4a449112b`
 
     useEffect(() => {
-      axios.get(urlState)
+      axios.get(`http://api.openweathermap.org/geo/1.0/reverse?lat=${weather.lat}&lon=${weather.lon}&limit=5&appid=00b908352099ba90a12ecbd4a449112b`)
       .then((res) => {
         setWeather({...weather, stateName: res.data[0].state})
       })
       .catch((err => {
           console.log(err);
       }))
-  }, [weather.cityName]);
+  }, []);
 
 
     const getWeather = () => {
@@ -64,9 +66,6 @@ const Weather = () => {
           lat: res.data.coord.lat
         })
         setError('')
-        console.log(urlState);
-        // console.log(weather.lat);
-        // console.log(weather.lon);
       })
       .catch((err => {
         console.log(err);
@@ -76,15 +75,10 @@ const Weather = () => {
 
     return (
       <div className="weatherContainer">
-        <div className="formContainer">
           <form onSubmit={handleSubmit}>
-            <label>
-              City:
             <input type="text" name="City" value={city} placeholder="Search for a city" onChange={handleChange} />
-            </label>
-            <input type="submit" value="Search" />
+            <FontAwesomeIcon icon={faSearch} onClick={handleSubmit}/>
           </form>
-        </div>
           <WeatherContainer weather={weather} city={city} error={error} />
       </div>
     )
