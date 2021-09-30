@@ -1,46 +1,10 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import moment from 'moment';
-import axios from 'axios';
 import 'moment-timezone'
 
 const WeatherContainer = (props) => {
-    const [timeZone, setTimeZone] = useState()
-    const [time, setTime] = useState()
 
-    // const dateState = moment().format('MMMM Do YYYY, h:mm a').tz(`America/${props.weather.stateName}`)
-    // console.log(dateState);
-    // const dateCountry = moment().tz(`America/Los_Angeles`).format('MMMM Do YYYY, h:mm a')
-    
-    useEffect(() => {
-        axios.get(`https://api.timezonedb.com/v2.1/get-time-zone?key=J4CW56V87PEA&format=json&by=position&lat=${props.weather.lat}&lng=${props.weather.lon}`)
-        .then((res) => {
-            console.log(res.data);
-            // console.log(res.data.zoneName);
-            setTimeZone(res.data.zoneName)
-            // console.log(dateState);
-            setTime(moment().tz(`${timeZone}`).format('MMMM Do YYYY, h:mm a'))
-            console.log(time);
-        })
-        .catch((err => {
-            console.log(err);
-        }))
-    }, []);
-    
-    // const dateState = moment().tz(`${timeZone}`).format('MMMM Do YYYY, h:mm a')
-
-
-
-    // const getLocalTime = () => {
-    //     axios.get(`https://api.timezonedb.com/v2.1/get-time-zone?key=J4CW56V87PEA&format=json&by=position&lat=${props.weather.lat}&lng=${props.weather.lon}`)
-    //     .then((res) => {
-    //         console.log(res.data.zoneName);
-    //         setTimeZone(res.data.zoneName)
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     })
-    // }
-    // console.log(getLocalTime())
+    const dateLocal = moment().tz(`${props.weather.timeZone}`).format('MMMM Do YYYY, h:mm a')
 
     const iconAPIurl = `http://openweathermap.org/img/w/${props.weather.weatherIcon}.png`
 
@@ -66,7 +30,7 @@ const WeatherContainer = (props) => {
             <h4> {Math.round(props.weather.temperature)} </h4>
             <p> High: {Math.round(props.weather.temperature_max)} </p>
             <p> Low: {Math.round(props.weather.temperature_min)} </p>
-            {/* <h5> {dateState} </h5> */}
+            <p> {dateLocal} </p>
         </div>
         : 
         <div className='display'>
@@ -77,7 +41,7 @@ const WeatherContainer = (props) => {
             <h4> {Math.round(props.weather.temperature)} </h4>
             <p> High: {Math.round(props.weather.temperature_max)} </p>
             <p> Low: {Math.round(props.weather.temperature_min)} </p>
-            {/* <h5> {dateCountry} </h5> */}
+            <p> {dateLocal} </p>
         </div>
           }
         </div>

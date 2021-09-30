@@ -17,6 +17,7 @@ const initialWeather = [{
   temperature_min: '',
   lon: '',
   lat: '',
+  timeZone: '',
 }]
 
 const Weather = () => {
@@ -42,13 +43,15 @@ const Weather = () => {
     .then((responseA) =>
         Promise.all([
           responseA,
-          axios.get(`http://api.openweathermap.org/geo/1.0/reverse?lat=${responseA.data.coord.lat}&lon=${responseA.data.coord.lon}&limit=5&appid=00b908352099ba90a12ecbd4a449112b`)
+          axios.get(`https://api.geoapify.com/v1/geocode/reverse?lat=${responseA.data.coord.lat}&lon=${responseA.data.coord.lon}&apiKey=${process.env.REACT_APP_GEOCODING_TOKEN}`),
+          axios.get(`https://api.timezonedb.com/v2.1/get-time-zone?key=J4CW56V87PEA&format=json&by=position&lat=${responseA.data.coord.lat}&lng=${responseA.data.coord.lon}`),
         ])   
     )
     .then(
-      ([responseA,responseB]) => {
-        console.log('resA', responseA);
-        console.log(responseB.data[0].state);
+      ([responseA,responseB, responseC]) => {
+        console.log('resA', responseA.data);
+        console.log('resB', responseB.data.features[0].properties.state);
+        console.log('resC', responseC.data.zoneName);
         setWeather({...weather, 
           cityName: responseA.data.name,
           country: responseA.data.sys.country,
@@ -60,7 +63,8 @@ const Weather = () => {
           weatherIcon: responseA.data.weather[0].icon,
           lon: responseA.data.coord.lon,
           lat: responseA.data.coord.lat,
-          stateName: responseB.data[0].state
+          stateName: responseB.data.features[0].properties.state,
+          timeZone: responseC.data.zoneName
         })
         setError('')
     })
