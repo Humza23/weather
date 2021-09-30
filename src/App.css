@@ -1,8 +1,19 @@
-html {
+/* html {
   background: url("./Components//Images/defaultBackground.jpeg") no-repeat
     center center fixed;
   background-size: cover;
-}
+} */
+#background-video {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	min-width: 100%;
+	min-height: 100%;
+	mix-blend-mode:color;
+
+  }
+
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -17,6 +28,7 @@ body {
 }
 
 .weatherContainer {
+  position: relative;
   width: 45%;
   margin-top: 10%;
   padding-top: 2%;
