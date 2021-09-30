@@ -1,8 +1,10 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import axios from 'axios'
 import WeatherContainer from './WeatherContainer'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import moment from 'moment';
+import 'moment-timezone'
 
 
 const initialWeather = [{
@@ -17,25 +19,25 @@ const initialWeather = [{
   temperature_min: '',
   lon: '',
   lat: '',
-  timeZone: '',
+  time: '',
 }]
 
 const Weather = () => {
 
-    const [city, setCity] = useState('')
-    const [error, setError] = useState('')
-    const [weather, setWeather] = useState(initialWeather)
-    
-    const handleChange = (e) => {
-      setCity(e.target.value);
-    }
-    
-    const handleSubmit = (e) => {
-      e.preventDefault()
-      getWeather()
-    }
-    
-    const weatherAPIurl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${process.env.REACT_APP_WEATHER_TOKEN}`
+  const [city, setCity] = useState('')
+  const [error, setError] = useState('')
+  const [weather, setWeather] = useState(initialWeather)
+  
+  const handleChange = (e) => {
+    setCity(e.target.value);
+  }
+  
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    getWeather()
+  }
+  
+  const weatherAPIurl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${process.env.REACT_APP_WEATHER_TOKEN}`
 
 
   const getWeather = () => {
@@ -64,7 +66,7 @@ const Weather = () => {
           lon: responseA.data.coord.lon,
           lat: responseA.data.coord.lat,
           stateName: responseB.data.features[0].properties.state,
-          timeZone: responseC.data.zoneName
+          time: moment().tz(`${responseC.data.zoneName}`).format('MMMM Do YYYY, h:mm a')
         })
         setError('')
     })

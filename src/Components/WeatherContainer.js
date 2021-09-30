@@ -1,10 +1,7 @@
 import React from 'react'
-import moment from 'moment';
-import 'moment-timezone'
+
 
 const WeatherContainer = (props) => {
-
-    const dateLocal = moment().tz(`${props.weather.timeZone}`).format('MMMM Do YYYY, h:mm a')
 
     const iconAPIurl = `http://openweathermap.org/img/w/${props.weather.weatherIcon}.png`
 
@@ -30,7 +27,7 @@ const WeatherContainer = (props) => {
             <h4> {Math.round(props.weather.temperature)} </h4>
             <p> High: {Math.round(props.weather.temperature_max)} </p>
             <p> Low: {Math.round(props.weather.temperature_min)} </p>
-            <p> {dateLocal} </p>
+            <p> {props.weather.time} </p>
         </div>
         : 
         <div className='display'>
@@ -41,7 +38,7 @@ const WeatherContainer = (props) => {
             <h4> {Math.round(props.weather.temperature)} </h4>
             <p> High: {Math.round(props.weather.temperature_max)} </p>
             <p> Low: {Math.round(props.weather.temperature_min)} </p>
-            <p> {dateLocal} </p>
+            <p> {props.weather.time} </p>
         </div>
           }
         </div>
