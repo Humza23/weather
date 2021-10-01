@@ -6,7 +6,6 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment';
 import 'moment-timezone'
 
-
 const initialWeather = [{
   cityName: '',
   stateName: '',
@@ -33,12 +32,11 @@ const Weather = () => {
   }
   
   const handleSubmit = (e) => {
-    e.preventDefault()
+    // e.preventDefault()
     getWeather()
   }
   
   const weatherAPIurl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${process.env.REACT_APP_WEATHER_TOKEN}`
-
 
   const getWeather = () => {
     axios.get(weatherAPIurl) 
@@ -51,9 +49,6 @@ const Weather = () => {
     )
     .then(
       ([responseA,responseB, responseC]) => {
-        console.log('resA', responseA.data);
-        console.log('resB', responseB.data.features[0].properties.state);
-        console.log('resC', responseC.data.zoneName);
         setWeather({...weather, 
           cityName: responseA.data.name,
           country: responseA.data.sys.country,
@@ -77,12 +72,36 @@ const Weather = () => {
   }
 
     return (
-      <div className="weatherContainer">
+      <div className="container">
+            <video autoPlay muted loop id="background-video" key={weather.weather}>
+                <source src={
+            (!weather.weather && "./sand.mp4") ||
+            (weather.weather === "Clouds" && "./beach.mp4") ||
+            (weather.weather === "Thunderstorm" && "./thunder.mp4")
+            // (weather.weather === "fire" && "#fd7d24") ||
+            // (weather.weather === "flying" && "#3dc7ef") ||
+            // (weather.weather === "water" && "#4592c4") ||
+            // (weather.weather === "bug" && "#729f3f") ||
+            // (weather.weather === "normal" && "#a4acaf") ||
+            // (weather.weather === "electric" && "#eed535") ||
+            // (weather.weather === "ground" && "#ab9842") ||
+            // (weather.weather === "fairy" && "#fdb9e9") ||
+            // (weather.weather === "fighting" && "#d56723") ||
+            // (weather.weather === "psychic" && "#f366b9") ||
+            // (weather.weather === "rock" && "#a38c21") ||
+            // (weather.weather === "steel" && "#9eb7b8") ||
+            // (weather.weather === "ghost" && "#7b62a3") ||
+            // (weather.weather === "ice" && "#51c4e7") ||
+            // (weather.weather === "dragon" && "#f16e57")
+                      
+              } type="video/mp4" />
+            </video>
           <form onSubmit={handleSubmit}>
             <input type="text" name="City" value={city} placeholder="Search for a city" onChange={handleChange} />
             <FontAwesomeIcon className="searchbtn" icon={faSearch} onClick={handleSubmit}/>
           </form>
           <WeatherContainer weather={weather} city={city} error={error} />
+
       </div>
     )
 }

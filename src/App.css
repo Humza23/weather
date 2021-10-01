@@ -73,13 +73,13 @@ body {
   justify-content: center;
 }
 
-.weatherContainer {
-  position: relative;
+
+.container {
   width: 45%;
-  margin-top: 10%;
-  padding-top: 2%;
-  border: 5px solid black;
   background-color: rgb(38, 38, 119);
+  margin-top: 10%;
+  padding: 2% 0 2.5% 0;
+  border: 5px solid black;
 }
 
 .display img {
@@ -91,11 +91,11 @@ form label{
 }
 
 form {
-  /* display: flex; */
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   padding-top: 1rem;
+  position: relative;
 }
 
 form ::placeholder {
@@ -125,3 +125,4 @@ input:focus {
 .searchbtn {
   padding-left: .5rem;
 }
+
