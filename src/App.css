@@ -224,6 +224,7 @@ input:focus {
 @media screen and (max-width: 768px) {
   .container {
     width: 55%;
+    margin-top: 17.5%;
   }
 }
 
