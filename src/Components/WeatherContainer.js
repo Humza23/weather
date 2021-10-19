@@ -10,13 +10,13 @@ const WeatherContainer = (props) => {
             {
           props.error ? 
         <div className='display'>
-            <h3>
+            <h3 className="pleaseEnter" style={{paddingTop: '.5rem', color: 'black', fontWeight: 'bold', opacity: '2', textTransform: 'uppercase'}}>
             {props.error} 
             </h3>
         </div> 
         : !props.weather.weather ? 
         <div className='display'>
-            <h2> {props.geoLocationStatus ? props.geoLocationStatus : 'Please enter a city name'} </h2>
+            <h2 className="pleaseEnter"> {props.geoLocationStatus ? props.geoLocationStatus : 'Please enter a city name or use current location'} </h2>
         </div>
           : props.weather.stateName ?
         <div className='display'>
@@ -24,10 +24,10 @@ const WeatherContainer = (props) => {
             <h2> {props.weather.weather} </h2>
             <img src={iconAPIurl} alt="weather icon" />
             <h3> {props.weather.description}</h3>
-            <h4> {Math.round(props.weather.temperature)} </h4>
-            <p> High: {Math.round(props.weather.temperature_max)} </p>
-            <p> Low: {Math.round(props.weather.temperature_min)} </p>
-            <p> {props.weather.time} </p>
+            <h4> Current Temperature: {Math.round(props.weather.temperature)}&deg; </h4>
+            <p> High: {Math.round(props.weather.temperature_max)}&deg; </p>
+            <p> Low: {Math.round(props.weather.temperature_min)}&deg; </p>
+            <p id="time"> {props.weather.time} </p>
         </div>
         : 
         <div className='display'>

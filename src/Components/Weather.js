@@ -79,10 +79,39 @@ const Weather = () => {
       setGeoLocationStatus('Locating...');
       navigator.geolocation.getCurrentPosition((position) => {
         setGeoLocationStatus(null);
-        setWeather({...weather,
-          lat: position.coords.latitude,
-          lon: position.coords.longitude})
-          console.log(weather);
+
+        axios.get(`https://api.geoapify.com/v1/geocode/reverse?lat=${position.coords.latitude}&lon=${position.coords.longitude}&apiKey=${process.env.REACT_APP_GEOCODING_TOKEN}`) 
+        .then((firstRes) =>
+            Promise.all([
+              firstRes,
+              axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${firstRes.data.features[0].properties.district}&units=imperial&appid=${process.env.REACT_APP_WEATHER_TOKEN}`),
+              axios.get(`https://api.timezonedb.com/v2.1/get-time-zone?key=J4CW56V87PEA&format=json&by=position&lat=${position.coords.latitude}&lng=${position.coords.longitude}`),
+            ])   
+        )
+        .then(
+        ([firstRes, secondRes, thirdRes]) => {
+          // console.log('first', firstRes.data.features[0]);
+          // console.log('second', secondRes.data);
+
+          setWeather({...weather, 
+            cityName: secondRes.data.name,
+            country: secondRes.data.sys.country,
+            weather: secondRes.data.weather[0].main,
+            description: secondRes.data.weather[0].description,
+            temperature: secondRes.data.main.temp,
+            temperature_max: secondRes.data.main.temp_max,
+            temperature_min: secondRes.data.main.temp_min,
+            weatherIcon: secondRes.data.weather[0].icon,
+            lon: secondRes.data.coord.lon,
+            lat: secondRes.data.coord.lat,
+            stateName: firstRes.data.features[0].properties.state,
+            time: moment().tz(`${thirdRes.data.zoneName}`).format('MMMM Do YYYY, h:mm a')
+          })
+          setError('')
+        })
+       .catch(error => {
+          console.log(error.response.data.error)
+       })
       }, () => {
         setGeoLocationStatus('Unable to retrieve your location');
       });
@@ -94,9 +123,9 @@ const Weather = () => {
             <video autoPlay muted loop id="background-video" key={weather.weather}>
                 <source src={
             (!weather.weather ? "./sand.mp4" : '') ||
-            (weather.weather === "Clouds" && "./beach.mp4") ||
-            (weather.weather === "Thunderstorm" && "./thunder.mp4")
-            // (weather.weather === "fire" && "#fd7d24") ||
+            (weather.weather === "Clouds" && "./clouds.mp4") ||
+            (weather.weather === "Thunderstorm" && "./thunder.mp4") ||
+            (weather.weather === "Clear" && "./sand.mp4") 
             // (weather.weather === "flying" && "#3dc7ef") ||
             // (weather.weather === "water" && "#4592c4") ||
             // (weather.weather === "bug" && "#729f3f") ||
