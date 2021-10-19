@@ -90,8 +90,6 @@ const Weather = () => {
         )
         .then(
         ([firstRes, secondRes, thirdRes]) => {
-          // console.log('first', firstRes.data.features[0]);
-          // console.log('second', secondRes.data);
 
           setWeather({...weather, 
             cityName: secondRes.data.name,
