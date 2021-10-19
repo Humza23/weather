@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import axios from 'axios'
 import WeatherContainer from './WeatherContainer'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faLocationArrow } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment';
 import 'moment-timezone'
 
@@ -26,13 +26,14 @@ const Weather = () => {
   const [city, setCity] = useState('')
   const [error, setError] = useState('')
   const [weather, setWeather] = useState(initialWeather)
+  const [geoLocationStatus, setGeoLocationStatus] = useState()
   
   const handleChange = (e) => {
     setCity(e.target.value);
   }
   
   const handleSubmit = (e) => {
-    // e.preventDefault()
+    e.preventDefault()
     getWeather()
   }
   
@@ -71,11 +72,28 @@ const Weather = () => {
     });
   }
 
+  const getLocation = () => {
+    if (!navigator.geolocation) {
+      setGeoLocationStatus('Geolocation is not supported by your browser');
+    } else {
+      setGeoLocationStatus('Locating...');
+      navigator.geolocation.getCurrentPosition((position) => {
+        setGeoLocationStatus(null);
+        setWeather({...weather,
+          lat: position.coords.latitude,
+          lon: position.coords.longitude})
+          console.log(weather);
+      }, () => {
+        setGeoLocationStatus('Unable to retrieve your location');
+      });
+    }
+  }
+
     return (
       <div className="container">
             <video autoPlay muted loop id="background-video" key={weather.weather}>
                 <source src={
-            (!weather.weather && "./sand.mp4") ||
+            (!weather.weather ? "./sand.mp4" : '') ||
             (weather.weather === "Clouds" && "./beach.mp4") ||
             (weather.weather === "Thunderstorm" && "./thunder.mp4")
             // (weather.weather === "fire" && "#fd7d24") ||
@@ -96,11 +114,12 @@ const Weather = () => {
                       
               } type="video/mp4" />
             </video>
-          <form onSubmit={handleSubmit}>
+          <form >
             <input type="text" name="City" value={city} placeholder="Search for a city" onChange={handleChange} />
             <FontAwesomeIcon className="searchbtn" icon={faSearch} onClick={handleSubmit}/>
+            <FontAwesomeIcon style={{color: 'blue'}} className="searchbtn" icon={faLocationArrow} onClick={getLocation}/>
           </form>
-          <WeatherContainer weather={weather} city={city} error={error} />
+          <WeatherContainer weather={weather} city={city} error={error} geoLocationStatus={geoLocationStatus}/>
 
       </div>
     )

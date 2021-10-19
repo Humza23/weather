@@ -16,7 +16,7 @@ const WeatherContainer = (props) => {
         </div> 
         : !props.weather.weather ? 
         <div className='display'>
-            <h2> Please enter a city name </h2>
+            <h2> {props.geoLocationStatus ? props.geoLocationStatus : 'Please enter a city name'} </h2>
         </div>
           : props.weather.stateName ?
         <div className='display'>
