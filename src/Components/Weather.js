@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faLocationArrow } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment';
 import 'moment-timezone'
+import BgVideo from './BgVideo'
 
 const initialWeather = [{
   cityName: '',
@@ -117,36 +118,17 @@ const Weather = () => {
   }
 
     return (
+      <div>
+
       <div className="container">
-            <video autoPlay muted loop id="background-video" key={weather.weather}>
-                <source src={
-            (!weather.weather ? "./sand.mp4" : '') ||
-            (weather.weather === "Clouds" && "./clouds.mp4") ||
-            (weather.weather === "Thunderstorm" && "./thunder.mp4") ||
-            (weather.weather === "Clear" && "./sand.mp4") 
-            // (weather.weather === "flying" && "#3dc7ef") ||
-            // (weather.weather === "water" && "#4592c4") ||
-            // (weather.weather === "bug" && "#729f3f") ||
-            // (weather.weather === "normal" && "#a4acaf") ||
-            // (weather.weather === "electric" && "#eed535") ||
-            // (weather.weather === "ground" && "#ab9842") ||
-            // (weather.weather === "fairy" && "#fdb9e9") ||
-            // (weather.weather === "fighting" && "#d56723") ||
-            // (weather.weather === "psychic" && "#f366b9") ||
-            // (weather.weather === "rock" && "#a38c21") ||
-            // (weather.weather === "steel" && "#9eb7b8") ||
-            // (weather.weather === "ghost" && "#7b62a3") ||
-            // (weather.weather === "ice" && "#51c4e7") ||
-            // (weather.weather === "dragon" && "#f16e57")
-                      
-              } type="video/mp4" />
-            </video>
           <form >
             <input type="text" name="City" value={city} placeholder="Search for a city" onChange={handleChange} />
             <FontAwesomeIcon className="searchbtn" icon={faSearch} onClick={handleSubmit}/>
             <FontAwesomeIcon style={{color: 'blue'}} className="searchbtn" icon={faLocationArrow} onClick={getLocation}/>
           </form>
           <WeatherContainer weather={weather} city={city} error={error} geoLocationStatus={geoLocationStatus}/>
+      </div>
+          <BgVideo weather={weather} />
 
       </div>
     )

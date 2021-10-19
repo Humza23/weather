@@ -127,13 +127,20 @@ table {
 
 /* CSS RESET */
 
-#background-video {
+.videoContainer {
   position: absolute;
-  right: 0;
-  bottom: 0;
-  min-width: 100%;
-  min-height: 100%;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   mix-blend-mode: color;
+}
+
+#background-video {
+  object-fit: fill;
+  width: 100vw;
+  height: 100vh;
 }
 
 body {
@@ -147,6 +154,7 @@ body {
   color: white;
   display: flex;
   justify-content: center;
+  margin-right: 46.5%;
 }
 
 .container {
@@ -156,6 +164,8 @@ body {
   padding: 2% 0 2.5% 0;
   border: 5px solid white;
   border-radius: 5%;
+  position: absolute;
+  z-index: 100;
 }
 
 .display img {
@@ -222,6 +232,10 @@ input:focus {
 }
 
 @media screen and (max-width: 768px) {
+
+  .App {
+    margin-right: 55%;
+  }
   .container {
     width: 55%;
     margin-top: 17.5%;
@@ -229,6 +243,9 @@ input:focus {
 }
 
 @media screen and (max-width: 425px) {
+  .App {
+    margin-right: 77.5%;
+  }
   .container {
     width: 75%;
     margin-top: 30%;
