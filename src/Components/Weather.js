@@ -85,13 +85,12 @@ const Weather = () => {
         .then((firstRes) =>
             Promise.all([
               firstRes,
-              axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${firstRes.data.features[0].properties.district}&units=imperial&appid=${process.env.REACT_APP_WEATHER_TOKEN}`),
+              axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${firstRes.data.features[0].properties.city}&units=imperial&appid=${process.env.REACT_APP_WEATHER_TOKEN}`),
               axios.get(`https://api.timezonedb.com/v2.1/get-time-zone?key=J4CW56V87PEA&format=json&by=position&lat=${position.coords.latitude}&lng=${position.coords.longitude}`),
             ])   
         )
         .then(
         ([firstRes, secondRes, thirdRes]) => {
-
           setWeather({...weather, 
             cityName: secondRes.data.name,
             country: secondRes.data.sys.country,
