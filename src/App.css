@@ -143,10 +143,11 @@ table {
   height: 100vh;
 }
 
+* {
+  font-family: "Varela", sans-serif;
+}
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Varela", sans-serif;
 }
 
 .App {
@@ -159,7 +160,7 @@ body {
 
 .container {
   width: 45%;
-  background-color: rgb(138, 138, 148);
+  background-color: rgb(166, 166, 223);
   margin-top: 12.5%;
   padding: 2% 0 2.5% 0;
   border: 5px solid white;
@@ -173,21 +174,33 @@ body {
   padding-top: 0.5rem;
 }
 
-.display h2 {
+.display .cityDisplay {
+  font-size: 1.3rem;
+}
+.display .currentWeather {
   padding-top: 0.5rem;
+  font-size: 1.3rem;
+}
+.display .currentDescription {
+  font-size: 1rem;
+  text-transform: capitalize;
 }
 
-.display .pleaseEnter{
+.display .pleaseEnter {
   padding-bottom: 1.5rem;
 }
-.display h4 {
+.display .currentTemp {
+  margin-left: 1.5rem;
+  font-size: 4rem;
   padding-top: 0.5rem;
 }
 .display p {
   padding-top: 0.5rem;
 }
 #time {
-  padding-bottom: 1rem;
+  font-size: 1.1rem;
+  font-weight: 900;
+  /* padding-bottom: 1rem; */
 }
 
 form label {
@@ -232,7 +245,6 @@ input:focus {
 }
 
 @media screen and (max-width: 768px) {
-
   .App {
     margin-right: 55%;
   }
@@ -254,7 +266,6 @@ input:focus {
     font-size: 0.85rem;
   }
 }
-
 
 @media screen and (max-width: 375px) {
   .container {
