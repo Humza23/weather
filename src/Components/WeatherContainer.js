@@ -28,7 +28,7 @@ const WeatherContainer = (props) => {
             <p> High: {Math.round(props.weather.temperature_max)}&deg; </p>
             <p> Low: {Math.round(props.weather.temperature_min)}&deg; </p>
             <hr style={{
-            color:'black',
+            border: '1px solid white',
             marginTop: '1.25rem'
 
         }}
