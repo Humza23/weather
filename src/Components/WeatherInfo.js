@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import axios from 'axios'
-import WeatherContainer from './WeatherContainer'
+import WeatherDisplay from './WeatherDisplay'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faLocationArrow } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment';
@@ -22,15 +22,15 @@ const initialWeather = [{
   time: '',
 }]
 
-const Weather = () => {
+const WeatherInfo = () => {
 
-  const [city, setCity] = useState('')
+  const [cityInput, setCityInput] = useState('')
   const [error, setError] = useState('')
   const [weather, setWeather] = useState(initialWeather)
   const [geoLocationStatus, setGeoLocationStatus] = useState()
   
   const handleChange = (e) => {
-    setCity(e.target.value);
+    setCityInput(e.target.value);
   }
   
   const handleSubmit = (e) => {
@@ -38,7 +38,7 @@ const Weather = () => {
     getWeather()
   }
   
-  const weatherAPIurl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${process.env.REACT_APP_WEATHER_TOKEN}`
+  const weatherAPIurl = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput}&units=imperial&appid=${process.env.REACT_APP_WEATHER_TOKEN}`
 
   const getWeather = () => {
     axios.get(weatherAPIurl) 
@@ -121,11 +121,11 @@ const Weather = () => {
 
       <div className="container">
           <form >
-            <input type="text" name="City" value={city} placeholder="Search for a city" onChange={handleChange} />
+            <input type="text" name="City" value={cityInput} placeholder="Search for a city" onChange={handleChange} />
             <FontAwesomeIcon className="searchbtn" icon={faSearch} onClick={handleSubmit}/>
             <FontAwesomeIcon style={{color: 'blue'}} className="searchbtn" icon={faLocationArrow} onClick={getLocation}/>
           </form>
-          <WeatherContainer weather={weather} city={city} error={error} geoLocationStatus={geoLocationStatus}/>
+          <WeatherDisplay weather={weather} error={error} geoLocationStatus={geoLocationStatus}/>
       </div>
           <BgVideo weather={weather} />
 
@@ -133,4 +133,4 @@ const Weather = () => {
     )
 }
 
-export default Weather
+export default WeatherInfo

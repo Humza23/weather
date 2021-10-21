@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-const WeatherContainer = (props) => {
+const WeatherDisplay = (props) => {
 
     const iconAPIurl = `http://openweathermap.org/img/w/${props.weather.weatherIcon}.png`
 
@@ -51,4 +51,4 @@ const WeatherContainer = (props) => {
     )
 }
 
-export default WeatherContainer
+export default WeatherDisplay
